@@ -25,6 +25,7 @@ The aim was to produce an everynight map of a share disk for users to better und
 In this branch:
 * OneProgramData: Show ProgramData only once. So no dupes in C:\Users\All Users\.
 * SanitizeFilenames: Remove filenames, but keep extensions when possible. Exception for the "Trash" filename. Be careful: we hope there is no secrets in users directory names or filename extensions like ".mypasswordis123456" or ".IHateMyBoss".
+* SetDensityTo3: If you only run SpaceMonger through a "virtual" account (Service or Task Scheduler) it may have different settings.
 
 ## Project status
 

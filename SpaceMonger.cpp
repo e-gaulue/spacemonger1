@@ -58,6 +58,10 @@ BOOL CSpaceMonger::InitInstance()
 	m_settings.Load();
 	m_settings.Save();
 
+	//EG Set default density to 3
+	m_settings.density = 3;
+
+
 	int showcmd = m_settings.showcmd;
 	RECT rect = m_settings.rect;
 	if (!m_settings.save_pos) {
