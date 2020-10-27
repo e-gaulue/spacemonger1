@@ -22,6 +22,9 @@ Then get the source (using your favorite tools) and double click SpaceMonger.sln
 
 The aim was to produce an everynight map of a share disk for users to better understand their usage. We needed autoscan, to hide filenames, a maximum file report and snapshot of the result even when run in session0 (Task Scheduler).
 
+Branches:
+* SetDensityTo3: If you only run SpaceMonger through a "virtual" account (Service or Task Scheduler) it may have different settings.
+
 ## Project status
 
 Not sure I'll have any time to follow this project, even if I think plenty of things could be done as:
