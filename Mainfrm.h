@@ -43,7 +43,8 @@ protected:
 	afx_msg void OnDestroy(void);
 	afx_msg void OnSysCommand(UINT nid, LPARAM lparam);
 	afx_msg void OnClose();
-	afx_msg void OnActivateApp(BOOL bActive, HTASK hTask);
+	//EG HTASK has change to DWORD
+	afx_msg void OnActivateApp(BOOL bActive, DWORD hTask);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnWindowPosChanged(WINDOWPOS *wp);
 	afx_msg void OnShowWindow(BOOL bShow, UINT status);

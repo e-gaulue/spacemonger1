@@ -83,7 +83,8 @@ void CMainFrame::OnDestroy(void)
 	theApp.m_settings.showcmd = w.showCmd;
 }
 
-void CMainFrame::OnActivateApp(BOOL bActive, HTASK hTask)
+//EG HTASK has changed to DWORD
+void CMainFrame::OnActivateApp(BOOL bActive, DWORD hTask)
 {
 	if (bActive) {
 		CSpaceMonger *monger = (CSpaceMonger *)AfxGetApp();
