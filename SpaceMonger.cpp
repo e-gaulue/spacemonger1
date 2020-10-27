@@ -95,6 +95,11 @@ BOOL CSpaceMonger::InitInstance()
 	m_mainframe->UpdateWindow();
 	m_mainframe->RecalcLayout();
 
+	//EG Open disk C
+	CFolderTree* ft = (CFolderTree*)m_document;
+	ft->m_path.Format("%c:\\", (char)('C'));
+	OnFileRefresh();
+
 	return(TRUE);
 }
 
