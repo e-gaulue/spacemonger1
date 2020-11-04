@@ -41,6 +41,17 @@ typedef struct {
 
 //////////////////////////////////////////////////////////////////////////////
 
+//EG New function and declaration used by file name sanitization
+const char* get_filename_ext(const char* filename) {
+	const char* dot = strrchr(filename, '.');
+	if (!dot || dot == filename) return "";
+	return dot + 1;
+}
+
+const char* strTrash = "Trash";
+const char* newcFilename;
+
+
 CFolderTree::CFolderTree()
 {
 	root = cur = NULL;
@@ -476,7 +487,13 @@ BOOL CFolder::LoadFolder(CFolderTree *tree, char *name, ui32 namelen, ui64 clust
 			ui64 actualsize = (ui64)finddata.nFileSizeLow + ((ui64)finddata.nFileSizeHigh << 32);
 			if (aligned) size = (actualsize+clustersize) & clustersize;
 			else size = actualsize - (actualsize % (clustersize+1));
-			AddFile(tree, finddata.cFileName, newlen-namelen, size, actualsize,
+			if (strcmp(strTrash, finddata.cFileName) == 0) {
+				newcFilename = finddata.cFileName;
+			}
+			else {
+				newcFilename = get_filename_ext(finddata.cFileName);
+			}
+			AddFile(tree, newcFilename, newlen - namelen, size, actualsize,
 				*(ui64 *)&finddata.ftLastWriteTime);
 		}
 

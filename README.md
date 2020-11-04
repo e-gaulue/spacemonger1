@@ -22,6 +22,9 @@ Then get the source (using your favorite tools) and double click SpaceMonger.sln
 
 The aim was to produce an everynight map of a share disk for users to better understand their usage. We needed autoscan, to hide filenames, a maximum file report and snapshot of the result even when run in session0 (Task Scheduler).
 
+Branches:
+* SanitizeFilenames: Remove filenames, but keep extensions when possible. Exception for the "Trash" filename. Be careful: we hope there is no secrets in users directory names or filename extensions like ".mypasswordis123456" or ".IHateMyBoss".
+
 ## Project status
 
 Not sure I'll have any time to follow this project, even if I think plenty of things could be done as:
