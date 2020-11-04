@@ -104,6 +104,9 @@ BOOL CSpaceMonger::InitInstance()
 	ft->m_path.Format("%c:\\", (char)('C'));
 	OnFileRefresh();
 
+	//EG Exit
+	OnAppExit();
+
 	return(TRUE);
 }
 
