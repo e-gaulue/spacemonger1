@@ -135,7 +135,7 @@ void CSpaceMonger::OnFileRefresh(void)
 
 	((CFolderView *)m_view)->zoomlevel = 0;
 	ft->LoadTree(ft->m_path, 1, m_mainframe);
-	m_view->SetDocument(m_document);
+	m_view->SetDocumentRefresh(m_document);
 	ft->UpdateAllViews();
 	m_mainframe->EnableWindow(1);
 }

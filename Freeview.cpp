@@ -48,6 +48,13 @@ void CFreeView::SetDocument(CFreeDoc *document)
 	if (document != NULL) document->AddView(this);
 }
 
+//EG Need on just for fake here
+void CFreeView::SetDocumentRefresh(CFreeDoc *document)
+{
+	if (m_document != NULL) m_document->RemoveView(this);
+	if (document != NULL) document->AddView(this);
+}
+
 CFreeDoc *CFreeView::GetDocument(void)
 {
 	return(m_document);

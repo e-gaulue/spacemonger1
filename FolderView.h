@@ -21,6 +21,10 @@ public:
 	virtual ~CFolderView();
 
 	virtual void SetDocument(CFreeDoc *doc = NULL);
+	//EG To deal with our screenshot from memory
+	virtual void SetDocumentRefresh(CFreeDoc *doc = NULL);
+	//EG Our function to copy screen
+	BOOL CaptureScreen(CDC* dcMemory);
 	virtual void SetPalette(void);
 
 	void BuildTitleReverse(CFolder *folder, CString &string);
@@ -54,6 +58,8 @@ protected:
 protected:
 	//{{AFX_MSG(CFolderView)
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	//EG Specific to memory capture keep our size
+	afx_msg void OnSizeRefresh(UINT nType, int cx, int cy);
 	afx_msg void OnLButtonDown(UINT flags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT flags, CPoint point);
 	afx_msg void OnRButtonUp(UINT flags, CPoint point);
