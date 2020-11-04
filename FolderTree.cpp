@@ -41,6 +41,9 @@ typedef struct {
 
 //////////////////////////////////////////////////////////////////////////////
 
+//EG Declaration for OneProgramData
+const char* AllUsers = "C:\\Users\\All Users\\";
+
 CFolderTree::CFolderTree()
 {
 	root = cur = NULL;
@@ -462,10 +465,12 @@ BOOL CFolder::LoadFolder(CFolderTree *tree, char *name, ui32 namelen, ui64 clust
 					dialog->IncFolders();
 				name[newlen++] = '\\';
 				name[newlen] = '\0';
-				CFolder *newfolder = new CFolder;
-				newfolder->LoadFolder(tree, name, newlen, clustersize, aligned, dialog);
-				AddFolder(tree, finddata.cFileName, newlen-namelen-1, newfolder,
-					*(ui64 *)&finddata.ftLastWriteTime);
+				if (strcmp(AllUsers, name) != 0) {
+					CFolder* newfolder = new CFolder;
+					newfolder->LoadFolder(tree, name, newlen, clustersize, aligned, dialog);
+					AddFolder(tree, finddata.cFileName, newlen - namelen - 1, newfolder,
+						*(ui64*)&finddata.ftLastWriteTime);
+				}
 			}
 		}
 		else {
