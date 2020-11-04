@@ -223,6 +223,8 @@ protected:
 public:
 	virtual BOOL Create(CWnd *wnd, BOOL show = 1);
 	virtual void SetDocument(CFreeDoc *doc = NULL);
+	//EG Just need this virtual for capture after refresh
+	virtual void SetDocumentRefresh(CFreeDoc *doc = NULL);
 	virtual CFreeDoc *GetDocument(void);
 
 	virtual void OnUpdate(CFreeDoc *doc);

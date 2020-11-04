@@ -5,6 +5,9 @@
 #include "TipWnd.h"
 #include "Lang.h"
 
+//EG to write memory capture on disk
+#include "atlimage.h"
+
 IMPLEMENT_DYNCREATE(CFolderView, CFreeView)
 
 static COLORREF BoxColors[] = {
@@ -783,6 +786,62 @@ void CFolderView::SetDocument(CFreeDoc *doc)
 	ReleaseDC(dc);
 }
 
+//EG Here is the trick: we create a fake default display (we can't use the current one if not present because of session0)
+//EG to configure our memory display.
+void CFolderView::SetDocumentRefresh(CFreeDoc* doc)
+{
+	CFreeView::SetDocument(doc);
+
+	if (doc != NULL)
+		rootfolder = ((CFolderTree*)doc)->GetRoot();
+	else rootfolder = NULL;
+	zoomlevel = 0;
+
+	UpdateTitleBar();
+	OnSizeRefresh(0, 1920, 1080);
+
+	CDC cDC_display;
+	cDC_display.CreateDC("DISPLAY", NULL, NULL, NULL);
+	CDC dcMemory;
+	dcMemory.CreateCompatibleDC(&cDC_display);
+	CBitmap _cBitmap;
+	_cBitmap.CreateCompatibleBitmap(&cDC_display, 1920, 1080);
+	ReleaseDC(&cDC_display);
+	dcMemory.SelectObject(&_cBitmap);
+	OnDraw(&dcMemory);
+	CaptureScreen(&dcMemory);
+	ReleaseDC(&dcMemory);
+}
+
+//EG Our capture screen function
+BOOL CFolderView::CaptureScreen(CDC* dcMemory)
+{
+	CImage image;
+	CWnd* pWnd;
+	CRect  rect;
+	BOOL   bStat;
+
+	//EG Well french name, change it to your need
+	char* filePathAndName = "C:\\UtilisationDisque.jpg";
+
+	bStat = image.Create(1920, 1080, 24);
+	ASSERT(bStat);
+	if (!bStat)
+		return  FALSE;
+
+	CImageDC imageDC(image);
+
+	::BitBlt(imageDC, 0, 0, 1920, 1080, *dcMemory, 0, 0, SRCCOPY);
+
+	HRESULT hr = image.Save(filePathAndName);
+	if (FAILED(hr))
+	{
+		TRACE(" Couldn't Save File: %s, %x ", (LPCTSTR)filePathAndName, hr);
+		return  FALSE;
+	}
+	return  TRUE;
+}
+
 void CFolderView::OnActivate(UINT nState, CWnd *pWndOther, BOOL bMinimized)
 {
 	if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE)
@@ -823,6 +882,24 @@ void CFolderView::OnSize(UINT nType, int cx, int cy)
 	if (rootfolder == NULL) {
 		if (GetDocument() == NULL) return;
 		rootfolder = ((CFolderTree *)GetDocument())->GetRoot();
+		zoomlevel = 0;
+		if (rootfolder == NULL) return;
+	}
+
+	BuildFolderLayout(0, 0, cx - 1, cy - 1, rootfolder, zoomlevel);
+}
+
+//EG To force size on refresh
+void CFolderView::OnSizeRefresh(UINT nType, int cx, int cy)
+{
+	m_width = cx;
+	m_height = cy;
+
+	ClearDisplayFolders();
+
+	if (rootfolder == NULL) {
+		if (GetDocument() == NULL) return;
+		rootfolder = ((CFolderTree*)GetDocument())->GetRoot();
 		zoomlevel = 0;
 		if (rootfolder == NULL) return;
 	}
